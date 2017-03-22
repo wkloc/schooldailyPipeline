@@ -40,20 +40,35 @@ node {
 	} catch (e) {
     	currentBuild.result = "FAILED"
     	notifyFailed()
+
+    	final def RECIPIENTS = emailextrecipients([
+        	[$class: 'DevelopersRecipientProvider'],
+        	[$class: 'CulpritsRecipientProvider']
+	    ])
+	    final def SUBJECT = "3-${env.JOB_NAME} ${env.BRANCH_NAME} - Build #${env.BUILD_NUMBER} - FAILED!"
+	    final def CONTENT = "Check console output at ${env.BUILD_URL} to view the results."
+	    if (RECIPIENTS != null && !RECIPIENTS.isEmpty()) {
+	        mail to: RECIPIENTS, replyTo: "wkloc@pgs-soft.com", subject: SUBJECT, body: CONTENT
+	    } else {
+	        mail to: "wkloc@pgs-soft.com", replyTo: "wkloc@pgs-soft.com", subject: SUBJECT, body: CONTENT
+	    }
+    
+
+
     	throw e
   	}
 }
 
 def notifyFailed() {
   emailext (
-      subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+      subject: "1-FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
       body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
       <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
       recipientProviders: [[$class: 'CulpritsRecipientProvider']]
   )
   
   mail body: "FAILED BUILD. ${env.JOB_NAME} build error is here: ${env.BUILD_URL}", from: 'jenkins@pgs-soft.com', replyTo: 'wkloc@pgs-soft.com',
-            subject: "FAILED BUILD - ${env.JOB_NAME} build failed", to: 'wkloc@pgs-soft.com'
+            subject: "2-FAILED BUILD - ${env.JOB_NAME} build failed", to: 'wkloc@pgs-soft.com'
 
   step([$class: 'Mailer',
       notifyEveryUnstableBuild: true,

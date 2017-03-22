@@ -53,7 +53,7 @@ def notifyFailed() {
   )
   
   mail body: "FAILED BUILD. ${env.JOB_NAME} build error is here: ${env.BUILD_URL}", from: 'jenkins@pgs-soft.com', replyTo: 'wkloc@pgs-soft.com',
-            subject: 'FAILED BUILD - ${env.JOB_NAME} build failed', to: 'wkloc@pgs-soft.com'
+            subject: "FAILED BUILD - ${env.JOB_NAME} build failed", to: 'wkloc@pgs-soft.com'
 
   step([$class: 'Mailer',
       notifyEveryUnstableBuild: true,

@@ -27,17 +27,17 @@ node {
    stage('Build - Integration Tests') {
       // Run the maven build
       if (isUnix()) {
-         sh "'${mvnHome}/bin/mvn' clean install"
+         sh "'${mvnHome}/bin/mvn' clean install -Dspring.profiles.active=ci"
       } else {
-         bat(/"${mvnHome}\bin\mvn" clean install/)
+         bat(/"${mvnHome}\bin\mvn" clean install -Dspring.profiles.active=ci/)
       }
    }
    stage('Sonar Analysis') {
       // Run the maven build
       if (isUnix()) {
-         sh "'${mvnHome}/bin/mvn' clean install sonar:sonar"
+         sh "'${mvnHome}/bin/mvn' clean install sonar:sonar -Dspring.profiles.active=ci"
       } else {
-         bat(/"${mvnHome}\bin\mvn" clean install sonar:sonar/)
+         bat(/"${mvnHome}\bin\mvn" clean install sonar:sonar -Dspring.profiles.active=ci/)
       }
    }
    stage('Results') {

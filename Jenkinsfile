@@ -51,11 +51,13 @@ def notifyFailed() {
       <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
       recipientProviders: [[$class: 'CulpritsRecipientProvider']]
   )
-
-  mail bcc: '', body: '<p>Check console output at &QUOT;<a href=\'${env.BUILD_URL}\'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>"""', cc: '', from: '', replyTo: '', subject: 'Build Failed - ${env.JOB_NAME} [${env.BUILD_NUMBER}]', to: 'wkloc@pgs-soft.com'
-
-
+  
   mail body: "FAILED BUILD. ${env.JOB_NAME} build error is here: ${env.BUILD_URL}", from: 'jenkins@pgs-soft.com', replyTo: 'wkloc@pgs-soft.com',
             subject: 'FAILED BUILD - ${env.JOB_NAME} build failed', to: 'wkloc@pgs-soft.com'
+
+  step([$class: 'Mailer',
+      notifyEveryUnstableBuild: true,
+      recipients: emailextrecipients([[$class: 'CulpritsRecipientProvider'],
+                                      [$class: 'RequesterRecipientProvider']])])            
 
 }

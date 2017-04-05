@@ -19,9 +19,9 @@ node {
    stage('Build - Unit Tests') {
       // Run the maven build
       if (isUnix()) {
-         sh "'${mvnHome}/bin/mvn' clean install -DskipITs"
+         sh "'${mvnHome}/bin/mvn' clean install -DskipITs -Dspring.profiles.active=citest"
       } else {
-         bat(/"${mvnHome}\bin\mvn" clean install -DskipITs/)
+         bat(/"${mvnHome}\bin\mvn" clean install -DskipITs -Dspring.profiles.active=citest/)
       }
    }
    stage('Build - Integration Tests') {

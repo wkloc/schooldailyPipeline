@@ -28,9 +28,9 @@ node {
 	   stage('Build - Integration Tests') {
 	      // Run the maven build
 	      if (isUnix()) {
-	         sh "'${mvnHome}/bin/mvn' clean install -Ddb.host=192.168.0.15:5433 -Dflyway.enabled=false"
+	         sh "'${mvnHome}/bin/mvn' clean install -Dspring.profiles.active=test"
 	      } else {
-	         bat(/"${mvnHome}\bin\mvn" clean install -Ddb.host=192.168.0.15:5433 -Dflyway.enabled=false/)
+	         bat(/"${mvnHome}\bin\mvn" clean install clean install -Dspring.profiles.active=test/)
 	      }
 	   }
 	   stage('Results') {

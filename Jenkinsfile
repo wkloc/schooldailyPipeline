@@ -3,7 +3,7 @@ node {
 	   def mvnHome
 	   stage('Checkout') { // for display purposes
 	      // Get some code from a GitHub repository
-	      git branch: 'testPlugins', url: 'https://github.com/wkloc/schooldaily.git'
+	      git branch: 'develop', url: 'https://github.com/wkloc/schooldaily.git'
 	      // Get the Maven tool.
 	      // ** NOTE: This 'M3' Maven tool must be configured
 	      // **       in the global configuration.           
